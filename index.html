@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Restaurant Filter</title>
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeZIurLDCO7ObCldHOrqbvFJOD08LQKCQ&libraries=places"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  </head>
+  <body>
+  <div id="filter-box">
+  <div class="col-xs-12" id="filter-types">
+
+    <input type="radio" name="type" value="food"> Food
+    <input type="radio" name="type" value="hotel"> Hotel
+    <input type="radio" name="type" value="health"> Health
+    <input type="radio" name="type" value="park"> Park
+  </div>
+
+
+
+    <p>Distance:</p>
+    <input type="range" id="myRange1" min="0.0" max="20" value="0" onchange="updateDistanceValue(this.value);" oninput="updateDistanceValue(this.value)">
+    <h2 id="distance">0</h2>
+    <p>Rating:</p>
+    <input type="range" id="myRange" min="0.0" max="5.0" value="0" onchange="updateRatingValue(this.value);" oninput="updateRatingValue(this.value)">
+    <h2 id="stars">0</h2>
+    <button type="button"  class="btn btn-primary" id="filter-button"name="setFilter" onclick="getLocation()">Search!</button>
+  </div>
+    <div class="" id="content">
+
+    </div>
+  </body>
+
+  <script type="text/javascript">
+
+var web1;
+ var istars=0;
+ var idistance=0;
+
+  function updateRatingValue(val){
+    document.getElementById('stars').innerHTML=val;
+    istars=parseInt(val);
+
+  }
+
+  function updateDistanceValue(val){
+    document.getElementById('distance').innerHTML=val;
+    idistance=parseInt(val)*1000;
+  }
+
+
+  function getLocation() {
+console.log("test1");
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(myFunction);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+
+}
+
+
+    function myFunction(position){
+       console.log("test2");
+      $("#content").remove();
+      $("body").append("<div class='' id='content'></div>");
+      var loc=new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+      console.log(position.coords.latitude+" , "+ position.coords.longitude);
+      var typeSelected=$('input[name="type"]:checked').val();
+      var request={
+        location: loc,
+        radius: idistance,
+        types: [typeSelected]
+      };
+      var service=new google.maps.places.PlacesService(document.createElement('div'));
+      service.nearbySearch(request,callback);
+
+      function callback(results,status){
+        for (var i = 0; i < results.length; i++) {
+          var colorClass;
+          if (i%2==0){
+            colorClass="content-div1";
+          }
+          else{
+            colorClass="content-div2";
+          }
+
+          if (results[i].rating>=istars){
+            var rq={
+            placeId:results[i].place_id
+            };
+
+            service.getDetails(rq, callback1);
+
+            function callback1(place, status) {
+              console.log(place);
+
+
+
+
+
+              $('#content').append(
+                "<div class='col-xs-12 "+ colorClass+"'>"+
+                "<a href='"+place.website+"'><img class='content-image' src="+"'"+place.photos[0].getUrl({'maxWidth': 200, 'maxHeight': 200})+"'"+"height='100' width='100'> </a>"+
+                "<h2 class='content-text'>"+place.name+"</h2>"+
+                "<br>"+
+                "</div>"
+              );
+            }
+          }
+        }
+      }
+    }
+  </script>
+</html>
