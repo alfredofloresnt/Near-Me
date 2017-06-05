@@ -1,5 +1,4 @@
 
-var web1;
  var istars=0;
  var idistance=0;
 
@@ -36,6 +35,8 @@ console.log("test1");
       var typeSelected=$('input[name="type"]:checked').val();
       var request={
         location: loc,
+        opennow: true,
+        rankby: distance,
         radius: idistance,
         types: [typeSelected]
       };
@@ -62,25 +63,55 @@ console.log("test1");
         for (i = 0; i < aData.length; i++) {
           setTimeout(function () {
 
-            FindLocation(aData[j]);
+            FindLocation(aData[j],j);
             j++
           },tm);
-          tm+=250;
+          tm+=300;
         }
       }
 
-      function FindLocation(place){
+      var cDiv="content-div1";
+      var cPhoto="";
+
+
+      function FindLocation(place,j){
+        if(j%2==0){
+          cDiv="content-div1";
+        }
+        else{
+          cDiv="content-div2";
+        }
+
           var rq={
             placeId:place.place_id
           };
           service.getDetails(rq, function(details, status){
-            console.log(details.name);
+            console.log(details);
+            if('undefined'=== typeof details.photos){
+              cPhoto="img/qm.png";
+            }
+            else {
+              cPhoto=details.photos[0].getUrl({'maxWidth': 200, 'maxHeight': 200});
+
+
+            }
             $('#content').append(
-              "<div class='col-xs-12 "+ "'>"+
-              "<a href='"+details.website+"'><img class='content-image' src="+"'"+details.photos[0].getUrl({'maxWidth': 200, 'maxHeight': 200})+"'"+"height='100' width='100'> </a>"+
-              "<h2 class='content-text'>"+details.name+"</h2>"+
-              "<br>"+
+              "<div class='"+cDiv+"'>"+
+              "<table>"+
+                "<tr>"+
+                  "<td style='width: 25%;'>"+
+                  "<a href='"+details.website+"' target='_blank'><img class='content-image' src="+"'"+cPhoto+"'"+"height='100' width='100'>"+"</a>"+
+                  "</td>"+
+                  "<td style='width: 75%;'>"+"<h2 class='content-text'>"+details.name+"</h2>"+
+                  "<a href='"+details.url+"' target='_blank'>"+
+                  "<img class='content-icon' src='img/loc-icon.png' style='width:24px;'>"+
+                  "</a>"+
+
+                  "</td>"+
+                "</tr>"+
+              "</table>"+
               "</div>"
+
             );
           });
       }
