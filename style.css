@@ -28,9 +28,11 @@
 }
 
 #filter-box{
+  color:white;
+  background-color: #3F51B5;
   margin-left: auto;
   margin-right: auto;
-  width: 75%;
+  width: 100%;
   padding: 50px;
   display: block;
   -moz-border-radius: 2px;
@@ -42,6 +44,8 @@
 }
 
 #filter-button{
+  background-color: #ffae41;
+  background: #ffae41;
   margin-left: auto;
   margin-right: auto;
   display: block;

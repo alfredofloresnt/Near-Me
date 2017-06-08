@@ -32,13 +32,14 @@ console.log("test1");
       $("body").append("<div class='' id='content'></div>");
       var loc=new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
       console.log(position.coords.latitude+" , "+ position.coords.longitude);
-      var typeSelected=$('input[name="type"]:checked').val();
+      var e=document.getElementById('types');
+      var getType= e.options[e.selectedIndex].value;
       var request={
         location: loc,
         opennow: true,
         rankby: distance,
         radius: idistance,
-        types: [typeSelected]
+        types: [getType]
       };
       var service=new google.maps.places.PlacesService(document.createElement('div'));
 
