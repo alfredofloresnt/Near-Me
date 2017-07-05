@@ -12,10 +12,6 @@
   </head>
   <body>
   <div id="filter-box">
-
-
-
-
   <div class="col-xs-12" id="filter-types">
     <select class="form-control" id="types">
       <option name="type" value="food" selected="selected">Food</option>
@@ -25,31 +21,12 @@
   </div>
   <div class="col-xs-12">
     <p>Distance:</p>
-    <input type="range" id="myRange1" min="0.0" max="20" value="0" onchange="updateDistanceValue(this.value);" oninput="updateDistanceValue(this.value)">
+    <input type="range" id="myRange1" min="1" max="20" value="1" onchange="updateDistanceValue(this.value);" oninput="updateDistanceValue(this.value)">
     <h2 id="distance">0</h2>
   </div>
-    <div class="row">
-    <div class="col-xs-6">
-    <p>Rating:</p>
-    <input type="range" id="myRange" min="0.0" max="5.0" value="0" onchange="updateRatingValue(this.value);" oninput="updateRatingValue(this.value)">
-    <h2 id="stars">0</h2>
-    </div>
-    <div class="col-xs-6">
-    <select class="form-control">
-      <option value="volvo">Open</option>
-      <option value="volvo">Open/Closed</option>
-    </select>
-  </div>
-  </div>
-
-
     <button type="button"  class="btn btn-primary" id="filter-button"name="setFilter" onclick="getLocation()">Search!</button>
-
   </div>
     <div class="" id="content">
-
     </div>
   </body>
-
-
 </html>
