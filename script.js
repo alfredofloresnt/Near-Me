@@ -1,7 +1,6 @@
 
- var istars=0;
- var idistance=0;
-
+ var idistance=1;
+var blockId=0
   function updateRatingValue(val){
     document.getElementById('stars').innerHTML=val;
     istars=parseInt(val);
@@ -66,6 +65,14 @@ console.log("test1");
 
             FindLocation(aData[j],j);
             j++
+            if (blockId%2==0){
+              cDiv="content-div1";
+            }
+            else{
+              cDiv="content-div2";
+            }
+            blockId++;
+
           },tm);
           tm+=300;
         }
@@ -75,13 +82,12 @@ console.log("test1");
       var cPhoto="";
 
 
+
+
+
       function FindLocation(place,j){
-        if(j%2==0){
-          cDiv="content-div1";
-        }
-        else{
-          cDiv="content-div2";
-        }
+
+
 
           var rq={
             placeId:place.place_id
@@ -93,8 +99,6 @@ console.log("test1");
             }
             else {
               cPhoto=details.photos[0].getUrl({'maxWidth': 200, 'maxHeight': 200});
-
-
             }
             $('#content').append(
               "<div class='"+cDiv+"'>"+
@@ -112,7 +116,6 @@ console.log("test1");
                 "</tr>"+
               "</table>"+
               "</div>"
-
             );
           });
       }
